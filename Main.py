@@ -27,7 +27,7 @@ def separateArray( text, local ):
 
 # Abrindo arquivo
 with open('chennai.csv', 'r') as csvfile:
-    readCSV = csv.reader(csvfile, delimiter=',')
+    readCSV = csv.reader(csvfile, delimiter=';')
 
     # Separando arquivo em arrays pra cada coluna importante
     for row in readCSV:

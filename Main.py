@@ -1,4 +1,5 @@
 import csv
+from StopWords import StopWords
 
 sentiments = []
 texts = []
@@ -65,3 +66,6 @@ with open('chennai.csv', 'r') as csvfile:
     #for i in range(0,len(palavraCortada)):
      #   addToDict(palavraCortada[i],arrayTests)
     #print arrayTests
+
+
+StopWords().printList()

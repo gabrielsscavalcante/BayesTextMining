@@ -4,6 +4,9 @@ sentiments = []
 texts = []
 titles = []
 dictCountWords = {}
+dictWordGood = {}
+dictWordNeutral = {}
+dictWordBad = {}
 
 arrayTests = []
 
@@ -30,19 +33,32 @@ with open('chennai.csv', 'r') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=';')
 
     # Separando arquivo em arrays pra cada coluna importante
+    a = 1
     for row in readCSV:
-        separateArray(row[1],titles)
-        separateArray(row[2],texts)
-        separateArray(row[3],sentiments)
+        if a == 2:
+            separateArray(row[1],titles)
+            separateArray(row[2],texts)
+            separateArray(int(row[3]),sentiments)
+        else:
+            a = 2
 
-    for row in texts:
-        palavraCortada = row.split( )
+    for i in range(0, len(texts)):
+        palavraCortada = texts[i].split( )
         for word in palavraCortada:
             addToArrayUnique(word,arrayTests)
+        if sentiments[i] == 1:
+            addToDict(arrayTests, dictWordBad)
+        elif sentiments[i] == 2:
+            addToDict(arrayTests, dictWordNeutral)
+        elif sentiments[i] == 3:
+            addToDict(arrayTests, dictWordGood)
         addToDict(arrayTests,dictCountWords)
         arrayTests = []
 
     print dictCountWords
+    print dictWordGood
+    print dictWordNeutral
+    print dictWordBad
     #palavraCortada = dictCountWords['teste'].split( )
     #print dictCountWords['teste'].split( )
 

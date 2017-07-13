@@ -9,7 +9,8 @@ dictWordGood = {}
 dictWordNeutral = {}
 dictWordBad = {}
 
-arrayTests = []
+arrayUniqueWords = []
+arrayStop = StopWords().list
 
 # Aqui ele verifica se o array ja possui uma palavra, se n tiver ele add.
 # Assim da pra evitar adicionar 2x uma palavra que apareceu 2x no mesmo texto
@@ -21,7 +22,7 @@ def addToDict(words,local):
             local[word] = 1
 
 def addToArrayUnique(word, local):
-    if word.lower() not in local:
+    if word.lower() not in local and word.lower() not in arrayStop:
         local.append(word.lower())
 
 # Separando o arquivo de um jeito bonitinho
@@ -46,15 +47,15 @@ with open('chennai.csv', 'r') as csvfile:
     for i in range(0, len(texts)):
         palavraCortada = texts[i].split( )
         for word in palavraCortada:
-            addToArrayUnique(word,arrayTests)
+            addToArrayUnique(word,arrayUniqueWords)
         if sentiments[i] == 1:
-            addToDict(arrayTests, dictWordBad)
+            addToDict(arrayUniqueWords, dictWordBad)
         elif sentiments[i] == 2:
-            addToDict(arrayTests, dictWordNeutral)
+            addToDict(arrayUniqueWords, dictWordNeutral)
         elif sentiments[i] == 3:
-            addToDict(arrayTests, dictWordGood)
-        addToDict(arrayTests,dictCountWords)
-        arrayTests = []
+            addToDict(arrayUniqueWords, dictWordGood)
+        addToDict(arrayUniqueWords,dictCountWords)
+        arrayUniqueWords = []
 
     print dictCountWords
     print dictWordGood

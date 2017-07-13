@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 import csv
 from StopWords import StopWords
+from Probability import Probability
 
 sentiments = []
 texts = []
@@ -70,3 +72,11 @@ with open('chennai.csv', 'r') as csvfile:
 
 
 StopWords().printList()
+
+
+#TESTE
+probability = Probability()
+print('No lançamento de um dado, um numero par pode ocorrer de 3 maneiras diferentes dentre 6 igualmente provaveis')
+print probability.of_A(3.0,6.0)
+print('Numa urna há 20 bolinhas numeradas de 1 a 20. Retiram-se duas bolinhas dessa urna, uma após a outra, sem reposição. Qual a probabilidade de ter saído um número par e um múltiplo de 5?')
+print probability.intersection_Of_A_and_B(probability.of_A(10.0,20.0), probability.of_A(4.0,19.0))

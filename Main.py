@@ -2,14 +2,19 @@
 import csv
 from StopWords import StopWords
 from Probability import Probability
+probability = Probability()
 
 sentiments = []
+sentimentsCount = []
 texts = []
 titles = []
 dictCountWords = {}
 dictWordGood = {}
 dictWordNeutral = {}
 dictWordBad = {}
+
+probWords = {}
+probSentiments = {}
 
 arrayUniqueWords = []
 arrayStop = StopWords().list
@@ -22,6 +27,9 @@ def addToDict(words,local):
             local[word] = local[word]+1
         else:
             local[word] = 1
+
+def addToProb(word,probability,dict):
+    dict[word] = probability
 
 def addToArrayUnique(word, local):
     if word.lower() not in local and word.lower() not in arrayStop:
@@ -63,11 +71,39 @@ with open('chennai.csv', 'r') as csvfile:
     # P(palavra) = palavra/total
     # P(Bom) = bom/total
 
+    for word in dictCountWords:
+        prob = probability.of_A(float(dictCountWords[word]),float(len(sentiments)))
+        addToProb(word,prob,probWords)
+
+    count1 = 0
+    count2 = 0
+    count3 = 0
+    for sentiment in sentiments:
+        if sentiment == 1:
+            count1+=1
+        elif sentiment == 2:
+            count2 += 1
+        else:
+            count3 += 1
+
+    sentimentsCount.append(count1)
+    sentimentsCount.append(count2)
+    sentimentsCount.append(count3)
+
+    for i in range(0,3):
+        prob = probability.of_A(float(sentimentsCount[i]),float(len(sentiments)))
+        addToProb(i+1,prob, probSentiments)
+
+    print probSentiments
     # Calcular e criar um novo dicionario, pra adicionar a probabilidade de cada palavra pra cada classe
     # P(palavra | bom) = P(palavra)*P(bom)/P(bom)
 
     # Calcular a probabilidade da classe, dado o conjunto de palavras
     # P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
+
+    # ALTERAR FUNCAO, POIS UTILIZA UM ARRAY E ESTAMOS PASSANDO UM DICIONARIO
+    # probGood = probability.bayes_Theorem_with_A_given_X(probSentiments[1],probWords)
+    # print probGood
 
     # print dictCountWords
     # print dictWordGood
@@ -81,7 +117,7 @@ with open('chennai.csv', 'r') as csvfile:
     #print arrayTests
 
 #TESTE
-probability = Probability()
+
 print('No lançamento de um dado, um numero par pode ocorrer de 3 maneiras diferentes dentre 6 igualmente provaveis')
 print probability.of_A(3.0,6.0)
 print('Numa urna há 20 bolinhas numeradas de 1 a 20. Retiram-se duas bolinhas dessa urna, uma após a outra, sem reposição. Qual a probabilidade de ter saído um número par e um múltiplo de 5?')

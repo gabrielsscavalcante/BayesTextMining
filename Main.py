@@ -63,8 +63,17 @@ with open('chennai.csv', 'r') as csvfile:
     print dictWordGood
     print dictWordNeutral
     print dictWordBad
-    #palavraCortada = dictCountWords['teste'].split( )
-    #print dictCountWords['teste'].split( )
+
+    # Criar probabilidade de cada palavra e de cada classe aparecer
+    # P(palavra) = palavra/total
+    # P(Bom) = bom/total
+
+    # Calcular e criar um novo dicionario, pra adicionar a probabilidade de cada palavra pra cada classe
+    # P(palavra | bom) = P(palavra)*P(bom)/P(bom)
+
+    # Calcular a probabilidade da classe, dado o conjunto de palavras
+    # P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
+
 
     #for i in range(0,len(palavraCortada)):
      #   addToDict(palavraCortada[i],arrayTests)

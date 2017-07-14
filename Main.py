@@ -124,3 +124,5 @@ print('Numa urna há 20 bolinhas numeradas de 1 a 20. Retiram-se duas bolinhas d
 print probability.intersection_Of_A_and_B(probability.of_A(10.0,20.0), probability.of_A(4.0,19.0))
 print('Palavras - P(bom = 1) = 0.75 P(maravilhoso = 1) = 0.5, P(pessimo = 1) = 0.4')
 print probability.bayes_Theorem_with_A_given_X(0.5, [0.75, 0.5, 0.4])
+
+print probability.bayes_Theorem_with_A_given_X(5.0/10.0, [(1.0/5.0), (2.0/5.0), (5.0/5.0),(1.0/5.0)])

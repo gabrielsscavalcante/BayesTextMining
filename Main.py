@@ -59,11 +59,6 @@ with open('chennai.csv', 'r') as csvfile:
         addToDict(arrayUniqueWords,dictCountWords)
         arrayUniqueWords = []
 
-    print dictCountWords
-    print dictWordGood
-    print dictWordNeutral
-    print dictWordBad
-
     # Criar probabilidade de cada palavra e de cada classe aparecer
     # P(palavra) = palavra/total
     # P(Bom) = bom/total
@@ -74,14 +69,16 @@ with open('chennai.csv', 'r') as csvfile:
     # Calcular a probabilidade da classe, dado o conjunto de palavras
     # P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
 
+    # print dictCountWords
+    # print dictWordGood
+    # print dictWordNeutral
+    # print dictWordBad
+    #palavraCortada = dictCountWords['teste'].split( )
+    #print dictCountWords['teste'].split( )
 
     #for i in range(0,len(palavraCortada)):
      #   addToDict(palavraCortada[i],arrayTests)
     #print arrayTests
-
-
-StopWords().printList()
-
 
 #TESTE
 probability = Probability()
@@ -89,3 +86,5 @@ print('No lançamento de um dado, um numero par pode ocorrer de 3 maneiras difer
 print probability.of_A(3.0,6.0)
 print('Numa urna há 20 bolinhas numeradas de 1 a 20. Retiram-se duas bolinhas dessa urna, uma após a outra, sem reposição. Qual a probabilidade de ter saído um número par e um múltiplo de 5?')
 print probability.intersection_Of_A_and_B(probability.of_A(10.0,20.0), probability.of_A(4.0,19.0))
+print('Palavras - P(bom = 1) = 0.75 P(maravilhoso = 1) = 0.5, P(pessimo = 1) = 0.4')
+print probability.bayes_Theorem_with_A_given_X(0.5, [0.75, 0.5, 0.4])

@@ -24,7 +24,7 @@ class Probability:
     def bayes_Theorem_with_A_given_X(self, probabilityOfA, probabilitiesOfX):
         probability = 1.0
 
-        for i in probabilitiesOfX:
-            probability = probability * Probability.of_A_Given_B(probabilitiesOfX[i], probabilityOfA)
+        for i in range(0,len(probabilitiesOfX)):
+            probability = probability * self.of_A_Given_B(probabilitiesOfX[i], probabilityOfA)
 
         return probabilityOfA * probability

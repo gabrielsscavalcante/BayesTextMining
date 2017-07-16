@@ -84,8 +84,6 @@ class DataManager:
             self.addToDictionary(self.words, self.countingWords)
             self.cleanData()
 
-        print self.countingWords
-
     def removeCharacters(self, word):
 
         # Unicode normalize transforma um caracter em seu equivalente em latin.

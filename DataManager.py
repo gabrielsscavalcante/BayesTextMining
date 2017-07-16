@@ -57,7 +57,9 @@ class DataManager:
 
     def addToArrayUnique(self, word, local):
         if word.lower() not in local and word.lower() not in DataManager.stopWords:
-            local.append(self.removeCharacters(word.lower()))
+            finalWord = self.removeCharacters(word.lower())
+            if finalWord != "":
+                local.append(finalWord)
 
     def addToDictionary(self, words, local):
         for word in words:
@@ -80,8 +82,9 @@ class DataManager:
                 self.addToDictionary(self.words, self.goodWords)
 
             self.addToDictionary(self.words, self.countingWords)
-            print self.words
             self.cleanData()
+
+        print self.countingWords
 
     def removeCharacters(self, word):
 

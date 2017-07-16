@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import csv
+import unicodedata
+import re
 import random
 from StopWords import StopWords
 
@@ -53,7 +57,7 @@ class DataManager:
 
     def addToArrayUnique(self, word, local):
         if word.lower() not in local and word.lower() not in DataManager.stopWords:
-            local.append(word.lower())
+            local.append(self.removeCharacters(word.lower()))
 
     def addToDictionary(self, words, local):
         for word in words:
@@ -76,7 +80,17 @@ class DataManager:
                 self.addToDictionary(self.words, self.goodWords)
 
             self.addToDictionary(self.words, self.countingWords)
+            print self.words
             self.cleanData()
+
+    def removeCharacters(self, word):
+
+        # Unicode normalize transforma um caracter em seu equivalente em latin.
+        # nfkd = unicodedata.normalize('NFKD', word)
+        # palavraSemAcento = u''.join([c for c in nfkd if not unicodedata.combining(c)])
+
+        # Usa expressão regular para retornar a palavra apenas com números, letras e espaço
+        return re.sub('[^a-zA-Z0-9 \\\]', '', word)
 
     def cleanData(self):
         self.words = []

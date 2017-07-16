@@ -36,14 +36,24 @@ class Probability:
 
     #
     # P(a|X) = P(a|x1, x2, x3,..., xi)
-    # P(a|X) = p(a) * p(x1|a) * p(x2|a) * p(xi|a) / p(X)
+    # P(a|X) = p(a) * p(x1|a) * p(x2|a) * p(xi|a)
     #
-    def bayes_Theorem_with_A_given_X(self, probabilityOfA, probabilitiesOfX, probabilityOfClasses):
+    def bayes_Theorem_with_A_given_X(self, probabilityOfA, probabilitiesOfX):
         probability = 1.0
 
         for word in probabilitiesOfX:
-            #TENTANDO MULTIPLICAR POR 1000
-            probability = probability * (self.of_A_Given_B(probabilitiesOfX[word], probabilityOfA)*1000)
-            print probability
+            value = probabilitiesOfX[word]
+            if value == 0.0:
+                value = 0.1
+                print value
+            probability = probability * (self.of_A_Given_B(value, probabilityOfA))
 
         return (probabilityOfA * probability)
+
+    def getMinFrom(self, probabilitiesOfX):
+        minValue = 1000.0
+        for word in probabilitiesOfX:
+            if probabilitiesOfX[word] < minValue:
+                minValue = probabilitiesOfX[word]
+
+        return minValue

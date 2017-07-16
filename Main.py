@@ -4,25 +4,25 @@ from Probability import Probability
 from DataManager import DataManager
 
 probability = Probability()
+dataManager = DataManager()
 
 sentimentsCount = []
-
 probWords = {}
 probSentiments = {}
+
+probabilityTestWords = {}
 
 def addToProb(word,probability,dict):
     dict[word] = probability
 
-dataManager = DataManager()
-# Criar probabilidade de cada palavra e de cada classe aparecer
-# P(palavra) = palavra/total
-# P(Bom) = bom/total
+def probabilityOfWords(words, sentiments, probabilities):
+    for word in words:
+        prob = probability.of_A(float(words[word]), float(len(sentiments)))
+        addToProb(word, prob, probabilities)
 
-for word in dataManager.countingWords:
-    prob = probability.of_A(float(dataManager.countingWords[word]),float(len(dataManager.sentiments)))
-    addToProb(word,prob,probWords)
-
-print probWords
+#TREINAMENTO
+#Necessario apenas pegar o valor
+probabilityOfWords(dataManager.countingWords, dataManager.sentiments, probWords)
 
 count1 = 0
 count2 = 0
@@ -35,27 +35,46 @@ for sentiment in dataManager.sentiments:
     else:
         count3 += 1
 
-print dataManager.sentiments
 sentimentsCount.append(count1)
 sentimentsCount.append(count2)
 sentimentsCount.append(count3)
-print sentimentsCount
 
 for i in range(0,3):
     prob = probability.of_A(float(sentimentsCount[i]),float(len(dataManager.sentiments)))
     addToProb(i+1,prob, probSentiments)
 
-print probSentiments
+# P(word|class)
 
-# Calcular e criar um novo dicionario, pra adicionar a probabilidade de cada palavra pra cada classe
-# P(palavra | bom) = P(palavra)*P(bom)/P(bom)
+print probWords
+probabilityWordClass = {}
+for word in probWords:
+    probabilities = []
+    for i in range(0, 3):
+        givenProbability = probability.of_A_Given_B(float(probWords[word]), float(probSentiments[i+1]))
+        #
+        #
+        #
+        #
+        #OS VALORES ESTAO FICANDO IGUAIS
+        #
+        #TENTA VER QUAL O PROBLEMA
+        #
+        #
+        #
+        #
+        probabilities.append(givenProbability)
 
-# Calcular a probabilidade da classe, dado o conjunto de palavras
-# P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
+    probabilityWordClass[word] = probabilities
 
-#probabilidade do array de X com aquele somatorio
-probX = probability.ofX(probSentiments,probWords)
-print probX
 
-probGood = probability.bayes_Theorem_with_A_given_X(probSentiments[1],probWords, probX)
-print probGood
+#TEST
+#Verificando a probabilidade de cada palavra por cada frase e colocando em um dicionario com probabilityWords, title e sentiment
+for row in dataManager.phrases:
+    probabilityRow = {}
+    probabilityOfWords(row['probabilityWords'], row['probabilityWords'], probabilityRow)
+    row['probabilityWords'] = probabilityRow
+    #FALTANDO PEGAR AS PROBABILIDADES DELAS
+
+classProbability = (5.0/10.0)
+wordsProbabilities = {'a': (1.0/5.0), 'b': (2.0/5.0), 'c': (5.0/5.0), 'd' : (1.0/5.0)}
+print probability.bayes_Theorem_with_A_given_X(classProbability, wordsProbabilities)

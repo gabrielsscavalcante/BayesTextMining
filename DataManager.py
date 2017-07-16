@@ -12,6 +12,7 @@ class DataManager:
     testData = []
     stopWords = StopWords().list
 
+    #Training Data
     titles = []
     texts = []
     sentiments =[]
@@ -22,11 +23,15 @@ class DataManager:
     neutralWords = {}
     goodWords = {}
 
+    #Test Data
+    phrases = []
+
     def __init__(self):
         self.data = self.getData()
         self.separateData()
         self.organizeTrainingData()
         self.separateTrainingWords()
+        self.separateTestPhrases()
 
     def getData(self):
         read = []
@@ -83,6 +88,30 @@ class DataManager:
 
             self.addToDictionary(self.words, self.countingWords)
             self.cleanData()
+
+    def separateTestPhrases(self):
+        a = 1
+        dictionaryRow = {}
+        dictionaryWords = {}
+        for row in self.testData:
+            if a == 2:
+                dictionaryRow['titles'] = row[1]
+                self.addToDictionary(self.separeteWords(row[2]), dictionaryWords)
+                dictionaryRow['probabilityWords'] = dictionaryWords
+                dictionaryRow['sentiments'] = row[3]
+                self.phrases.append(dictionaryRow)
+                dictionaryRow = {}
+                dictionaryWords = {}
+            else:
+                a = 2
+
+    def separeteWords(self, text):
+        separatedWords = []
+        wordsPerText = text.split()
+        for word in wordsPerText:
+            self.addToArrayUnique(word, separatedWords)
+
+        return separatedWords
 
     def removeCharacters(self, word):
 

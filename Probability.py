@@ -42,6 +42,8 @@ class Probability:
         probability = 1.0
 
         for word in probabilitiesOfX:
-            probability = probability * (self.of_A_Given_B(probabilitiesOfX[word], probabilityOfA)/probabilityOfClasses)
+            #TENTANDO MULTIPLICAR POR 1000
+            probability = probability * (self.of_A_Given_B(probabilitiesOfX[word], probabilityOfA)*1000)
+            print probability
 
-        return probabilityOfA * probability
+        return (probabilityOfA * probability)

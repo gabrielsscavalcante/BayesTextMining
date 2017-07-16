@@ -1,120 +1,68 @@
 # -*- coding: utf-8 -*-
 import csv
-from StopWords import StopWords
 from Probability import Probability
+from DataManager import DataManager
+
 probability = Probability()
 
-sentiments = []
 sentimentsCount = []
-texts = []
-titles = []
-dictCountWords = {}
-dictWordGood = {}
-dictWordNeutral = {}
-dictWordBad = {}
 
 probWords = {}
 probSentiments = {}
-
-arrayUniqueWords = []
-arrayStop = StopWords().list
-
-# Aqui ele verifica se o array ja possui uma palavra, se n tiver ele add.
-# Assim da pra evitar adicionar 2x uma palavra que apareceu 2x no mesmo texto
-def addToDict(words,local):
-    for word in words:
-        if local.has_key(word):
-            local[word] = local[word]+1
-        else:
-            local[word] = 1
+dictCountWords = {}
 
 def addToProb(word,probability,dict):
     dict[word] = probability
 
-def addToArrayUnique(word, local):
-    if word.lower() not in local and word.lower() not in arrayStop:
-        local.append(word.lower())
+dataManager = DataManager()
+# Criar probabilidade de cada palavra e de cada classe aparecer
+#  P(palavra) = palavra/total
+# P(Bom) = bom/total
 
-# Separando o arquivo de um jeito bonitinho
-def separateArray( text, local ):
-   local.append(text)
-   return
+for word in dictCountWords:
+    prob = probability.of_A(float(dictCountWords[word]),float(len(dataManager.sentiments)))
+    addToProb(word,prob,probWords)
 
-# Abrindo arquivo
-with open('chennai.csv', 'r') as csvfile:
-    readCSV = csv.reader(csvfile, delimiter=';')
+count1 = 0
+count2 = 0
+count3 = 0
+for sentiment in dataManager.sentiments:
+    if sentiment == 1:
+        count1+=1
+    elif sentiment == 2:
+        count2 += 1
+    else:
+        count3 += 1
 
-    # Separando arquivo em arrays pra cada coluna importante
-    a = 1
-    for row in readCSV:
-        if a == 2:
-            separateArray(row[1],titles)
-            separateArray(row[2],texts)
-            separateArray(int(row[3]),sentiments)
-        else:
-            a = 2
+sentimentsCount.append(count1)
+sentimentsCount.append(count2)
+sentimentsCount.append(count3)
 
-    for i in range(0, len(texts)):
-        palavraCortada = texts[i].split( )
-        for word in palavraCortada:
-            addToArrayUnique(word,arrayUniqueWords)
-        if sentiments[i] == 1:
-            addToDict(arrayUniqueWords, dictWordBad)
-        elif sentiments[i] == 2:
-            addToDict(arrayUniqueWords, dictWordNeutral)
-        elif sentiments[i] == 3:
-            addToDict(arrayUniqueWords, dictWordGood)
-        addToDict(arrayUniqueWords,dictCountWords)
-        arrayUniqueWords = []
+for i in range(0,3):
+    prob = probability.of_A(float(sentimentsCount[i]),float(len(dataManager.sentiments)))
+    addToProb(i+1,prob, probSentiments)
 
-    # Criar probabilidade de cada palavra e de cada classe aparecer
-    # P(palavra) = palavra/total
-    # P(Bom) = bom/total
+# Calcular e criar um novo dicionario, pra adicionar a probabilidade de cada palavra pra cada classe
+# P(palavra | bom) = P(palavra)*P(bom)/P(bom)
 
-    for word in dictCountWords:
-        prob = probability.of_A(float(dictCountWords[word]),float(len(sentiments)))
-        addToProb(word,prob,probWords)
+# Calcular a probabilidade da classe, dado o conjunto de palavras
+# P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
 
-    count1 = 0
-    count2 = 0
-    count3 = 0
-    for sentiment in sentiments:
-        if sentiment == 1:
-            count1+=1
-        elif sentiment == 2:
-            count2 += 1
-        else:
-            count3 += 1
+probX = probability.ofX(probSentiments,probWords)
+print probX
+# probGood = probability.bayes_Theorem_with_A_given_X(probSentiments[1],probWords, probX)
+# print probGood
 
-    sentimentsCount.append(count1)
-    sentimentsCount.append(count2)
-    sentimentsCount.append(count3)
+# print dictCountWords
+# print dictWordGood
+# print dictWordNeutral
+# print dictWordBad
+#palavraCortada = dictCountWords['teste'].split( )
+#print dictCountWords['teste'].split( )
 
-    for i in range(0,3):
-        prob = probability.of_A(float(sentimentsCount[i]),float(len(sentiments)))
-        addToProb(i+1,prob, probSentiments)
-
-    # Calcular e criar um novo dicionario, pra adicionar a probabilidade de cada palavra pra cada classe
-    # P(palavra | bom) = P(palavra)*P(bom)/P(bom)
-
-    # Calcular a probabilidade da classe, dado o conjunto de palavras
-    # P(bom | palavras) = P(palavra1 | bom) * P(palavra2 | bom)
-
-    probX = probability.ofX(probSentiments,probWords)
-    print probX
-    # probGood = probability.bayes_Theorem_with_A_given_X(probSentiments[1],probWords, probX)
-    # print probGood
-
-    # print dictCountWords
-    # print dictWordGood
-    # print dictWordNeutral
-    # print dictWordBad
-    #palavraCortada = dictCountWords['teste'].split( )
-    #print dictCountWords['teste'].split( )
-
-    #for i in range(0,len(palavraCortada)):
-     #   addToDict(palavraCortada[i],arrayTests)
-    #print arrayTests
+#for i in range(0,len(palavraCortada)):
+#   addToDict(palavraCortada[i],arrayTests)
+#print arrayTests
 
 #TESTE
 

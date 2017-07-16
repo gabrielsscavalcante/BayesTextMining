@@ -79,11 +79,11 @@ class DataManager:
             for word in wordsPerText:
                 self.addToArrayUnique(word,self.words)
 
-            if self.sentiments[i] == 1:
+            if self.sentiments[i] == '1':
                 self.addToDictionary(self.words, self.badWords)
-            elif self.sentiments[i] == 2:
+            elif self.sentiments[i] == '2':
                 self.addToDictionary(self.words, self.neutralWords)
-            elif self.sentiments[i] == 3:
+            elif self.sentiments[i] == '3':
                 self.addToDictionary(self.words, self.goodWords)
 
             self.addToDictionary(self.words, self.countingWords)

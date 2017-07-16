@@ -9,6 +9,11 @@ class Probability:
     # P(a,b) = P(a)*P(b)
     #
     def intersection_Of_A_and_B(self, probabilityOfA, probabilityOfB):
+        print 'batata2'
+        print probabilityOfA
+        print probabilityOfB
+        print 'batata1'
+        print probabilityOfB * probabilityOfA
         return probabilityOfB * probabilityOfA
 
     #

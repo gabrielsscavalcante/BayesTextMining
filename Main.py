@@ -64,18 +64,13 @@ for word in dataManager.badWords:
     probabilitie = float(dataManager.badWords[word])/float(sentimentsCount[0])
     probBadWords[word] = probabilitie
 
-print probGoodWords['good']
-print probNeutralWords['good']
-print probBadWords['good']
-
 
 # Calculando P(Sentimento / palavras)
 # SE CONSEGUIR DEIXAR ISSO MAIS BONITO
 # SE O SENTIMENTO NÃO POSSUI DETERMINADA PALAVRA EU IGNORO PRA NÃO ZERAR (MESMA COISA QUE MULTIPLICAR POR 1 EU ACHO)
 acertos = 0
-for i in range(1,1000):
+for i in range(1,len(dataManager.texts)):
     text = dataManager.separeteWords(dataManager.texts[i])
-    print text
 
     probTextGood = 1
     probTextNeutral = 1
@@ -94,25 +89,51 @@ for i in range(1,1000):
             probTextBad = probTextBad*probBadWords[word]
         else:
             probTextBad = probTextBad * 0.001
-
-    print probTextGood
-    print probTextNeutral
-    print probTextBad
     resultado = 0
     if probTextGood > probTextNeutral and probTextGood > probTextBad:
-        print 'Resultado foi que sentimento é 3'
         resultado = 3
     if probTextNeutral > probTextGood and probTextNeutral > probTextBad:
-        print 'Resultado foi que sentimento é 2'
         resultado = 2
     if probTextBad > probTextNeutral and probTextBad > probTextGood:
-        print 'Resultado foi que sentimento é 1'
         resultado = 1
 
     if int(resultado) == int(dataManager.sentiments[i]):
         acertos = acertos+1
-    print dataManager.sentiments[2]
-print acertos
+print float(acertos)/float(len(dataManager.texts))
+
+# ------------------------------------------ FIM DO TREINO E INICIO DO TESTE -------------------------------------------
+hitsTest = 0
+for row in dataManager.phrases:
+    phrase = row['probabilityWords']
+
+    probTextGood = 1
+    probTextNeutral = 1
+    probTextBad = 1
+
+    for word in phrase:
+        if probGoodWords.has_key(word):
+            probTextGood = probTextGood * probGoodWords[word]
+        else:
+            probTextGood = probTextGood * 0.001
+        if probNeutralWords.has_key(word):
+            probTextNeutral = probTextNeutral * probNeutralWords[word]
+        else:
+            probTextNeutral = probTextNeutral * 0.001
+        if probBadWords.has_key(word):
+            probTextBad = probTextBad * probBadWords[word]
+        else:
+            probTextBad = probTextBad * 0.001
+    result = 0
+    if probTextGood > probTextNeutral and probTextGood > probTextBad:
+        result = 3
+    if probTextNeutral > probTextGood and probTextNeutral > probTextBad:
+        result = 2
+    if probTextBad > probTextNeutral and probTextBad > probTextGood:
+        result = 1
+    if int(result) == int(row['sentiments']):
+        hitsTest = hitsTest+1
+print float(hitsTest)/float(len(dataManager.phrases))
+#print frase['probabilityWords']
 # for word in probWords:
 #     probabilities = []
 #     for i in range(0, 3):

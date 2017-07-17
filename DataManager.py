@@ -25,6 +25,8 @@ class DataManager:
 
     #Test Data
     phrases = []
+    textsTest = []
+    sentimentsTest = []
 
     def __init__(self):
         self.data = self.getData()
@@ -41,24 +43,22 @@ class DataManager:
             for row in readCSV:
                 read.append(row)
 
-        random.shuffle(read)
+        #random.shuffle(read)
         return read
 
     def separateData(self):
         sizeTraining = int(0.8*len(self.data))
         size = len(self.data)
-        self.trainingData = self.data[0:sizeTraining]
+        self.data.pop(0)
+        random.shuffle(self.data)
+        self.trainingData = self.data[1:sizeTraining]
         self.testData = self.data[sizeTraining:size]
 
     def organizeTrainingData(self):
-        a = 1
         for row in self.trainingData:
-            if a == 2:
                 self.titles.append(row[1])
                 self.texts.append(row[2])
                 self.sentiments.append(row[3])
-            else:
-                a = 2
 
     def addToArrayUnique(self, word, local):
         if word.lower() not in local and word.lower() not in DataManager.stopWords:

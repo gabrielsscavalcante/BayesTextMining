@@ -49,7 +49,6 @@ for i in range(0,3):
 probabilityWordClass = {}
 
 # Encontrando as P(palavra / sentimento)
-# SE CONSEGUIR DEIXAR ISSO MAIS BONITO
 probGoodWords = {}
 probNeutralWords = {}
 probBadWords = {}
@@ -66,7 +65,6 @@ for word in dataManager.badWords:
 
 
 # Calculando P(Sentimento / palavras)
-# SE CONSEGUIR DEIXAR ISSO MAIS BONITO
 # SE O SENTIMENTO NÃO POSSUI DETERMINADA PALAVRA EU IGNORO PRA NÃO ZERAR (MESMA COISA QUE MULTIPLICAR POR 1 EU ACHO)
 acertos = 0
 for i in range(1,len(dataManager.texts)):
@@ -133,27 +131,6 @@ for row in dataManager.phrases:
     if int(result) == int(row['sentiments']):
         hitsTest = hitsTest+1
 print float(hitsTest)/float(len(dataManager.phrases))
-#print frase['probabilityWords']
-# for word in probWords:
-#     probabilities = []
-#     for i in range(0, 3):
-#         givenProbability = probability.of_A_Given_B(float(probWords[word]), float(probSentiments[i+1]))
-#         #
-#         #
-#         #
-#         #
-#         #OS VALORES ESTAO FICANDO IGUAIS
-#         #
-#         #TENTA VER QUAL O PROBLEMA
-#         #
-#         #
-#         #
-#         #
-#         probabilities.append(givenProbability)
-#
-#     probabilityWordClass[word] = probabilities
-# print probSentiments
-
 
 #TEST
 #Verificando a probabilidade de cada palavra por cada frase e colocando em um dicionario com probabilityWords, title e sentiment
